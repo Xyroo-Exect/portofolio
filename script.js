@@ -60,3 +60,22 @@ document.querySelectorAll('.project').forEach((card) => {
   });
   card.addEventListener('mouseleave', () => { card.style.transform = ''; });
 });
+
+const header = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  header?.classList.toggle('scrolled', window.scrollY > 18);
+}, { passive: true });
+
+const heroVisual = document.querySelector('.hero-visual');
+heroVisual?.addEventListener('pointermove', (event) => {
+  if (window.matchMedia('(max-width: 850px), (prefers-reduced-motion: reduce)').matches) return;
+  const rect = heroVisual.getBoundingClientRect();
+  const x = (event.clientX - rect.left) / rect.width - 0.5;
+  const y = (event.clientY - rect.top) / rect.height - 0.5;
+  heroVisual.querySelector('.sticker-one')?.style.setProperty('transform', `translate(${x * 8}px, ${y * 8}px) rotate(8deg)`);
+  heroVisual.querySelector('.sticker-two')?.style.setProperty('transform', `translate(${x * -8}px, ${y * -8}px) rotate(-7deg)`);
+});
+heroVisual?.addEventListener('pointerleave', () => {
+  heroVisual.querySelector('.sticker-one')?.style.removeProperty('transform');
+  heroVisual.querySelector('.sticker-two')?.style.removeProperty('transform');
+});
